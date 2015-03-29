@@ -10,4 +10,5 @@
 # App commands
 
 - `. venv/bin/activate` starts the virtual env. You need this running to start the app
+- `export APP_CONFIG="config.Dev"` sets the app environment to Dev. There is also `config.Prod`, `config.Stage` and `config.Test`
 - `python app.py` starts the server
