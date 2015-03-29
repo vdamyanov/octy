@@ -9,4 +9,5 @@
 
 # App commands
 
+- `. venv/bin/activate` starts the virtual env. You need this running to start the app
 - `python app.py` starts the server
