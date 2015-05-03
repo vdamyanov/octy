@@ -49,22 +49,29 @@ def authorized():
         )
     session['linkedin_token'] = (resp['access_token'], '')
     me = linkedin.get('people/~')
-    email = me.data['email'] = linkedin.get('people/~/email-address').data
+    dataEmail = me.data['email'] = linkedin.get('people/~/email-address').data
+
+    # Check if user in db
+    userInDb = False
+    for email in db.session.query(LinkedinProfile.email):
+        if (email[0] == dataEmail):
+            userInDb = True
 
     # Save to db
-    userLinkedinProfile = LinkedinProfile(
-        email=email,
-        firstname=me.data['firstName'],
-        lastname=me.data['lastName'],
-        headline=me.data['headline']
-    )
-    user = User(
-        email=email,
-        linkedin_profile=userLinkedinProfile
-    )
+    if (userInDb == False):
+        userLinkedinProfile = LinkedinProfile(
+            email=dataEmail,
+            firstname=me.data['firstName'],
+            lastname=me.data['lastName'],
+            headline=me.data['headline']
+        )
+        user = User(
+            email=dataEmail,
+            linkedin_profile=userLinkedinProfile
+        )
 
-    db.session.add(user)
-    db.session.commit()
+        db.session.add(user)
+        db.session.commit()
 
     return jsonify(me.data)
 

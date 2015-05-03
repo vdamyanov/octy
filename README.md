@@ -12,3 +12,14 @@
 - `. venv/bin/activate` starts the virtual env. You need this running to start the app
 - `export APP_CONFIG="config.Dev"` sets the app environment to Dev. There is also `config.Prod`, `config.Stage` and `config.Test`
 - `python app.py` starts the server
+
+# Setting up the database
+
+You need to be in the root of the app when you run these commands
+
+- open up postgres in terminal `psql`
+- create a new db `CREATE DATABASE octy_dev`
+- select the db. you can user `\c octy_dev`
+- in another tab open up python with `python`
+- import the db using `from octy.models import db`
+- run `db.create_all()` and you are done
