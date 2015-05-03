@@ -1,18 +1,8 @@
-from flask import Flask, redirect, url_for, session, request, jsonify
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask import session, jsonify
+from octy import app
 from flask_oauthlib.client import OAuth
-import os
 
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_CONFIG']) # export APP_CONFIG="config.Dev"
-db = SQLAlchemy(app)
-app.secret_key = 'development'
 oauth = OAuth(app)
-
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
 
 linkedin = oauth.remote_app(
     'linkedin',
@@ -29,7 +19,6 @@ linkedin = oauth.remote_app(
     authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
 )
 
-
 @app.route('/')
 def index():
     if 'linkedin_token' in session:
@@ -37,17 +26,14 @@ def index():
         return jsonify(me.data)
     return redirect(url_for('login'))
 
-
 @app.route('/login')
 def login():
     return linkedin.authorize(callback=url_for('authorized', _external=True))
-
 
 @app.route('/logout')
 def logout():
     session.pop('linkedin_token', None)
     return redirect(url_for('index'))
-
 
 @app.route('/login/authorized')
 def authorized():
@@ -61,11 +47,9 @@ def authorized():
     me = linkedin.get('people/~')
     return jsonify(me.data)
 
-
 @linkedin.tokengetter
 def get_linkedin_oauth_token():
     return session.get('linkedin_token')
-
 
 def change_linkedin_query(uri, headers, body):
     auth = headers.pop('Authorization')
@@ -79,7 +63,3 @@ def change_linkedin_query(uri, headers, body):
     return uri, headers, body
 
 linkedin.pre_request = change_linkedin_query
-
-
-if __name__ == '__main__':
-    app.run()
