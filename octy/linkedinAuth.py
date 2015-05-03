@@ -9,7 +9,7 @@ linkedin = oauth.remote_app(
     consumer_key='tgqpmdbwrca8',
     consumer_secret='udCHlYrbPLbLVNH1',
     request_token_params={
-        'scope': 'r_basicprofile',
+        'scope': 'r_emailaddress',
         'state': 'RandomString',
     },
     base_url='https://api.linkedin.com/v1/',
@@ -23,6 +23,7 @@ linkedin = oauth.remote_app(
 def index():
     if 'linkedin_token' in session:
         me = linkedin.get('people/~')
+        me.data['email'] = linkedin.get('people/~/email-address').data
         return jsonify(me.data)
     return redirect(url_for('login'))
 
@@ -45,6 +46,7 @@ def authorized():
         )
     session['linkedin_token'] = (resp['access_token'], '')
     me = linkedin.get('people/~')
+    me.data['email'] = linkedin.get('people/~/email-address').data
     return jsonify(me.data)
 
 @linkedin.tokengetter
