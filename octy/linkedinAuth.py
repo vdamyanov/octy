@@ -1,6 +1,9 @@
-from flask import session, jsonify
+from flask import session, jsonify, url_for, redirect, request
 from octy import app
 from flask_oauthlib.client import OAuth
+from octy import db
+from octy.models import User
+from octy.models import LinkedinProfile
 
 oauth = OAuth(app)
 
@@ -46,7 +49,23 @@ def authorized():
         )
     session['linkedin_token'] = (resp['access_token'], '')
     me = linkedin.get('people/~')
-    me.data['email'] = linkedin.get('people/~/email-address').data
+    email = me.data['email'] = linkedin.get('people/~/email-address').data
+
+    # Save to db
+    userLinkedinProfile = LinkedinProfile(
+        email=email,
+        firstname=me.data['firstName'],
+        lastname=me.data['lastName'],
+        headline=me.data['headline']
+    )
+    user = User(
+        email=email,
+        linkedin_profile=userLinkedinProfile
+    )
+
+    db.session.add(user)
+    db.session.commit()
+
     return jsonify(me.data)
 
 @linkedin.tokengetter
