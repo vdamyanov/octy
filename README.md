@@ -15,7 +15,7 @@
 
 # Setting up the database
 
-You need to be in the root of the app when you run these commands
+You need to be in the root of the app when you run these commands. You also need to have the environment variable set and be in the venv
 
 - open up postgres in terminal `psql`
 - create a new db `CREATE DATABASE octy_dev`
