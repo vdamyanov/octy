@@ -1,3 +1,3 @@
 from octy import app
 
-app.run(debug=True)
+app.run()
