@@ -1,18 +1,18 @@
 from octy import db
 
 class User(db.Model):
-  __tablename__ = 'users'
+    __tablename__ = 'users'
 
-  id = db.Column(db.Integer, primary_key=True)
-  email = db.Column(db.String(120), unique=True)
-  linkedin_profile = db.relationship('LinkedinProfile', backref='user', uselist=False)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True)
+    linkedin_profile = db.relationship('LinkedinProfile', backref='user', uselist=False)
 
-  # def __init__(self, email, linkedin_profile):
-  #     self.email = email
-  #     self.linkedin_profile = linkedin_profile
+    # def __init__(self, email, linkedin_profile):
+    #     self.email = email
+    #     self.linkedin_profile = linkedin_profile
 
-  # def __repr__(self):
-  #     return '<User %r>' % self.username
+    # def __repr__(self):
+    #     return '<User %r>' % self.username
 
 class LinkedinProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
