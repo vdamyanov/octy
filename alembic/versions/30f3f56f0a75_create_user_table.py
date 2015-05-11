@@ -21,6 +21,7 @@ def upgrade():
         'users',
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('email', sa.String(120), nullable=False),
+        # Need to also make a one-to-one relationship with the linkedin_profile table here somehow
     )
 
 
