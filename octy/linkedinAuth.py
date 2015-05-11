@@ -1,9 +1,7 @@
 from flask import session, jsonify, url_for, redirect, request
-from octy import app
 from flask_oauthlib.client import OAuth
-from octy import db
-from octy.models import User
-from octy.models import LinkedinProfile
+from octy import app, db
+from octy.models import User, LinkedinProfile
 from octy.transactionalEmails import sendEmail
 
 oauth = OAuth(app)
@@ -57,6 +55,7 @@ def authorized():
     for email in db.session.query(LinkedinProfile.email):
         if (email[0] == dataEmail):
             userInDb = True
+            break
 
     # Save to db
     if (userInDb == False):

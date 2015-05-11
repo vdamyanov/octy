@@ -4,8 +4,7 @@ from octy import app
 
 sg = sendgrid.SendGridClient(app.config['SENDGRID_USER'], app.config['SENDGRID_KEY'])
 message = sendgrid.Mail()
- 
-@app.route('/sendEmail')
+
 def sendEmail(user, emailTemplate):
 	message.add_to(user.email)
 	message.set_from("hi@vahidjozi.com")
@@ -16,10 +15,3 @@ def sendEmail(user, emailTemplate):
 		print "emails sent w/ newUser tempalte"
 	else:
 		print "template doesn't exist dude!"
-
-
-
-
-
-
-

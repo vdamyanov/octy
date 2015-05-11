@@ -6,6 +6,7 @@ from logging.config import fileConfig
 import os
 import sys
 
+# This is required so Alembic will find the app
 sys.path.append(os.getcwd())
 
 from octy import app
