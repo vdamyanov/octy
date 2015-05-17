@@ -8,9 +8,9 @@ oauth = OAuth(app)
 
 linkedin = oauth.remote_app(
     'linkedin',
-    consumer_key='tgqpmdbwrca8',
-    consumer_secret='udCHlYrbPLbLVNH1',
-    request_token_params={
+    consumer_key = app.config['LINKEDIN_KEY'],
+    consumer_secret = app.config['LINKEDIN_SECRET'],
+    request_token_params = {
         'scope': 'r_emailaddress',
         'state': 'RandomString',
     },
