@@ -1,3 +1,10 @@
 /venv
+/node_modules
+/bower_components
+/tests/coverage
+/build
 *.pyc
 .DS_Store
+Thumbs.db
+npm_debug.log
+npm-debug.log
