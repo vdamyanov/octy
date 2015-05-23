@@ -1,5 +1,4 @@
 var path = require('path');
-var addSrc = require('gulp-add-src');
 var cacheBust = require('gulp-cache-bust');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -12,17 +11,12 @@ var order = require('gulp-order');
 var concat = require('gulp-concat');
 var paths = require('./paths');
 var autoprefixer = require('gulp-autoprefixer');
-var ngconstant = require('gulp-ng-constant');
 var merge = require('gulp-merge');
 var sourcemaps = require('gulp-sourcemaps');
-var gulpif = require('gulp-if');
 var templateCache = require('gulp-angular-templatecache');
-var consolidate = require('gulp-consolidate');
 var flatten = require('gulp-flatten');
 var plumber = require('gulp-plumber');
 var ngAnnotate = require('gulp-ng-annotate');
-var client = require('../server/client');
-var config = require(client.path);
 
 var buildDir = paths.dir.build;
 var assetsDir = paths.dir.assets;
@@ -45,15 +39,7 @@ gulp.task('scripts', ['clean'], function () {
     gulp.src(paths.templates)
       .pipe(flatten())
       .pipe(templateCache({module: 'unata', base: ''}))
-      .pipe(gutil.noop()), // FIXME: Why is this necessary?!
-
-    // Configurations
-
-    gulp.src('') // ngconstant expects a json file, but i'm using the constants param instead
-      .pipe(ngconstant({
-        name: 'config',
-        constants: {config: config}
-      }))
+      .pipe(gutil.noop()) // FIXME: Why is this necessary?!
   )
   .pipe(jshint({
     strict: false,        // Ignore errors about function scope strict mode
@@ -70,8 +56,8 @@ gulp.task('scripts', ['clean'], function () {
   .pipe(ngAnnotate())
   .pipe(sourcemaps.init())
   .pipe(concat('application.js', {newLine: '\n;\n'}))
-  .pipe(gulpif(config.minify, uglify()))
-  .pipe(gulpif(config.sourcemaps, sourcemaps.write('sourcemaps')))
+  // .pipe(uglify())
+  // .pipe(sourcemaps.write('sourcemaps'))
   .pipe(gulp.dest(assetsDir + 'js'));
 });
 
@@ -92,9 +78,9 @@ gulp.task('fonts', ['clean'], function () {
 //-- Vendor Dependencies Processing -----------------------------------------
 
 gulp.task('vendor-scripts', ['clean'], function () {
-  return gulp.src(bowerFiles().concat(paths.vendorScripts))
+  return gulp.src(bowerFiles())
     .pipe(concat('vendor.js', {newLine: '\n;\n'}))
-    .pipe(gulpif(config.minify, uglify()))
+    // .pipe(uglify())
     .pipe(gulp.dest(assetsDir + 'js'));
 });
 
@@ -109,10 +95,6 @@ gulp.task('files', ['clean'], function () {
 gulp.task('publish-static', function() {
   return gulp.src(paths.static)
     .pipe(gulp.dest(buildDir));
-});
-
-gulp.task('cache-break', function() {
-
 });
 
 gulp.task('assets', [
