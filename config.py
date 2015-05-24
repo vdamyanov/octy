@@ -4,7 +4,7 @@ class Config(object):
     CSRF_ENABLED = True
     SENDGRID_USER = 'octy'
     SENDGRID_KEY = 'mrKimJongSexyGloriousBeast7'
-    LINKEDIN_KEY='tgqpmdbwrca8',
+    LINKEDIN_KEY = 'tgqpmdbwrca8',
     LINKEDIN_SECRET='udCHlYrbPLbLVNH1'
 
 class Prod(Config):

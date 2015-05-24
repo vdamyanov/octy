@@ -12,8 +12,8 @@ module.exports = {
     source: '/styles/application.styl'
   },
   fonts: ['styles/fonts/*'],
-  templates: ['app/**/*.html'],
-  files: ['app/index.html'],
+  templates: ['webapp/**/*.html'],
+  files: ['webapp/app.html'],
   dir: {
     build: './build/',
     assets: './build/assets/',
