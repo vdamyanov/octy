@@ -30,7 +30,7 @@ gulp.task('scripts', ['clean'], function () {
       .pipe(order([
         'app.js',
         'services/*.js',
-        'components/**/*Routes.js',
+        'pages/**/*Routes.js',
         '*.js'
       ])),
 
