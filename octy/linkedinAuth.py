@@ -1,4 +1,4 @@
-from flask import session, jsonify, url_for, redirect, request
+from flask import session, jsonify, url_for, redirect, request, render_template_string
 from flask_oauthlib.client import OAuth
 from octy import app, db
 from octy.models import User, LinkedinProfile
@@ -23,11 +23,13 @@ linkedin = oauth.remote_app(
 
 @app.route('/')
 def index():
-    if 'linkedin_token' in session:
-        me = linkedin.get('people/~')
-        me.data['email'] = linkedin.get('people/~/email-address').data
-        return jsonify(me.data)
-    return redirect(url_for('login'))
+    # if 'linkedin_token' in session:
+    #     me = linkedin.get('people/~')
+    #     me.data['email'] = linkedin.get('people/~/email-address').data
+    #     return jsonify(me.data)
+    # return redirect(url_for('login'))
+    main = open('build/app.html', 'r').read()
+    return render_template_string(main)
 
 @app.route('/login')
 def login():

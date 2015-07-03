@@ -23,7 +23,7 @@ gutil.log('API proxies initialized');
 
 // Start server
 var server = app.listen(3000, function() {
-  var host = server.address().address;
+  var host = 'localhost'; //server.address().address;
   var port = server.address().port;
 
   gutil.log('Server listening at http://' + host + ':' + port);
